@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EduLearn - Educational Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- LOGIN VIEW -->
+    <div id="login-view" class="view active">
+        <div class="login-wrapper">
+            <div class="glass-card login-card">
+                <div class="brand">
+                    <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h1>EduLearn</h1>
+                    <p>Private Educational Platform</p>
+                </div>
+                <form id="login-form" class="login-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="login-username" placeholder="Username" required autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-glass btn-primary-glow">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <div id="login-message" class="login-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LAYOUT -->
+    <div id="admin-layout" class="view layout">
+        <div class="mobile-header glass-panel">
+            <button id="mobile-menu-toggle" class="btn btn-glass btn-sm"><i class="fas fa-bars"></i></button>
+            <div class="mobile-brand"><i class="fas fa-graduation-cap"></i> EduLearn</div>
+            <div style="width:36px;"></div>
+        </div>
+
+        <aside class="sidebar glass-panel" id="admin-sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduLearn</span>
+                <button class="mobile-close-sidebar" id="mobile-close-sidebar"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-target="admin-dashboard">
+                    <i class="fas fa-chart-pie"></i> <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-target="admin-students">
+                    <i class="fas fa-user-graduate"></i> <span>Students</span>
+                </a>
+                <a href="#" class="nav-link" data-target="admin-content">
+                    <i class="fas fa-book-open"></i> <span>Content</span>
+                </a>
+                <!-- Admins link - ONLY for Owner -->
+                <a href="#" class="nav-link owner-only" data-target="admin-admins" id="nav-admins">
+                    <i class="fas fa-user-shield"></i> <span>Admins</span>
+                </a>
+                <a href="#" class="nav-link" data-target="admin-settings">
+                    <i class="fas fa-cogs"></i> <span>Settings</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="admin-info">
+                    <i class="fas fa-user-shield"></i>
+                    <span id="admin-display-name">Osama</span>
+                </div>
+                <div id="admin-role-badge" class="role-badge">Owner</div>
+                <button id="btn-admin-logout" class="btn btn-glass btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content" id="admin-main">
+            <!-- DASHBOARD -->
+            <section id="admin-dashboard" class="content-section active">
+                <header class="page-header"><h2><i class="fas fa-chart-pie"></i> Dashboard</h2></header>
+                <div class="stats-grid">
+                    <div class="glass-card stat-card glow-blue">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-details"><h3 id="dash-total-students">0</h3><p>Students</p></div>
+                    </div>
+                    <div class="glass-card stat-card glow-purple">
+                        <div class="stat-icon"><i class="fas fa-book"></i></div>
+                        <div class="stat-details"><h3 id="dash-total-content">0</h3><p>Content</p></div>
+                    </div>
+                    <div class="glass-card stat-card glow-orange">
+                        <div class="stat-icon"><i class="fas fa-user-clock"></i></div>
+                        <div class="stat-details"><h3 id="dash-pending-students">0</h3><p>Pending</p></div>
+                    </div>
+                    <div class="glass-card stat-card glow-green">
+                        <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+                        <div class="stat-details"><h3 id="dash-active-students">0</h3><p>Active</p></div>
+                    </div>
+                </div>
+                <div class="dashboard-row">
+                    <div class="glass-card recent-card">
+                        <h3><i class="fas fa-clock-rotate-left"></i> Recent Students</h3>
+                        <div id="recent-students-list" class="recent-list"><div class="empty-state">No students yet</div></div>
+                    </div>
+                    <div class="glass-card recent-card">
+                        <h3><i class="fas fa-upload"></i> Recent Content</h3>
+                        <div id="recent-content-list" class="recent-list"><div class="empty-state">No content yet</div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STUDENTS LIST -->
+            <section id="admin-students" class="content-section">
+                <header class="page-header flex-between">
+                    <h2><i class="fas fa-user-graduate"></i> Students</h2>
+                    <button id="btn-go-add-student" class="btn btn-glass btn-primary-glow">
+                        <i class="fas fa-plus"></i> Add Student
+                    </button>
+                </header>
+                <div class="glass-card table-card">
+                    <div class="table-toolbar">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="student-search" placeholder="Search students..." class="glass-input">
+                        </div>
+                        <select id="student-status-filter" class="glass-input">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="blocked">Blocked</option>
+                        </select>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>Student</th><th>Grade</th><th>Year</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+                            <tbody id="students-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADD STUDENT PAGE -->
+            <section id="admin-add-student" class="content-section">
+                <header class="page-header flex-between">
+                    <button id="btn-back-from-add-student" class="btn btn-glass btn-sm"><i class="fas fa-arrow-left"></i> Back</button>
+                </header>
+                <div class="glass-card form-page-card">
+                    <div class="form-page-header">
+                        <div class="form-page-icon"><i class="fas fa-user-plus"></i></div>
+                        <h2>Add New Student</h2>
+                        <p>Create a student account with login credentials</p>
+                    </div>
+                    <form id="form-add-student" class="form-page-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="new-stu-name" class="glass-input" placeholder="e.g. Ahmed Mohamed" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="new-stu-username" class="glass-input" placeholder="e.g. ahmed123" required>
+                                <small class="form-hint">Used for login</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="new-stu-password" class="glass-input" placeholder="Min 6 characters" required minlength="6">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Grade</label>
+                                <select id="new-stu-grade" class="glass-input" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Academic Year</label>
+                                <select id="new-stu-year" class="glass-input" required></select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="btn-cancel-add-student" class="btn btn-glass">Cancel</button>
+                            <button type="submit" class="btn btn-glass btn-primary-glow"><i class="fas fa-user-plus"></i> Create</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- CONTENT LIBRARY -->
+            <section id="admin-content" class="content-section">
+                <header class="page-header flex-between">
+                    <h2><i class="fas fa-book-open"></i> Content Library</h2>
+                    <button id="btn-go-add-content" class="btn btn-glass btn-primary-glow"><i class="fas fa-plus"></i> Add Content</button>
+                </header>
+                <div class="glass-card filters-bar">
+                    <select id="admin-filter-grade" class="glass-input"><option value="">All Grades</option></select>
+                    <select id="admin-filter-year" class="glass-input"><option value="">All Years</option></select>
+                    <select id="admin-filter-subject" class="glass-input"><option value="">All Subjects</option></select>
+                    <select id="admin-filter-term" class="glass-input"><option value="">All Terms</option></select>
+                    <button id="btn-admin-clear-filters" class="btn btn-glass btn-sm">Clear</button>
+                </div>
+                <div id="admin-content-grid" class="content-grid"></div>
+            </section>
+
+            <!-- ADD CONTENT PAGE -->
+            <section id="admin-add-content" class="content-section">
+                <header class="page-header flex-between">
+                    <button id="btn-back-from-add-content" class="btn btn-glass btn-sm"><i class="fas fa-arrow-left"></i> Back</button>
+                </header>
+                <div class="glass-card form-page-card">
+                    <div class="form-page-header">
+                        <div class="form-page-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <h2>Add New Content</h2>
+                        <p>Upload files, YouTube videos, or external links</p>
+                    </div>
+                    <form id="form-upload" class="form-page-body">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="up-title" class="glass-input" placeholder="Content title..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="up-desc" class="glass-input" rows="2" placeholder="Short description..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Grade</label><select id="up-grade" class="glass-input" required></select></div>
+                            <div class="form-group"><label>Year</label><select id="up-year" class="glass-input" required></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Subject</label><select id="up-subject" class="glass-input" required></select></div>
+                            <div class="form-group"><label>Term</label><select id="up-term" class="glass-input" required><option value="First">First Term</option><option value="Second">Second Term</option><option value="Third">Third Term</option></select></div>
+                        </div>
+                        <div class="form-group">
+                            <label>Content Type</label>
+                            <select id="up-type" class="glass-input">
+                                <option value="file">Upload File (Image / PDF)</option>
+                                <option value="video">YouTube Video Link</option>
+                                <option value="link">External Link</option>
+                            </select>
+                        </div>
+                        <div id="upload-file-section">
+                            <div class="form-group">
+                                <label>File (Max 800KB)</label>
+                                <div class="file-drop-zone" id="file-drop-zone">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Drag & drop file here or click to browse</p>
+                                    <input type="file" id="up-file" class="file-input-hidden" accept="image/*,.pdf">
+                                </div>
+                                <div id="file-selected-name" class="file-selected-name"></div>
+                                <small class="form-hint">Max 800KB. Use links for larger files.</small>
+                            </div>
+                        </div>
+                        <div id="upload-url-section" style="display:none;">
+                            <div class="form-group">
+                                <label id="url-label">YouTube URL</label>
+                                <input type="url" id="up-url" class="glass-input" placeholder="https://...">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="btn-cancel-add-content" class="btn btn-glass">Cancel</button>
+                            <button type="submit" class="btn btn-glass btn-primary-glow"><i class="fas fa-save"></i> Save</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ADMINS LIST (Owner Only) -->
+            <section id="admin-admins" class="content-section">
+                <header class="page-header flex-between">
+                    <h2><i class="fas fa-user-shield"></i> Admin Management</h2>
+                    <button id="btn-go-add-admin" class="btn btn-glass btn-primary-glow"><i class="fas fa-plus"></i> Add Admin</button>
+                </header>
+                <div class="glass-card table-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead><tr><th>Admin</th><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead>
+                            <tbody id="admins-table-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="owner-notice glass-card" style="margin-top:16px;padding:16px;background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.2);">
+                        <i class="fas fa-info-circle" style="color:var(--success);margin-right:8px;"></i>
+                        <strong>Owner Account:</strong> Osama (Owner) cannot be deleted. Only other admins can be removed.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ADD ADMIN PAGE (Owner Only) -->
+            <section id="admin-add-admin" class="content-section">
+                <header class="page-header flex-between">
+                    <button id="btn-back-from-add-admin" class="btn btn-glass btn-sm"><i class="fas fa-arrow-left"></i> Back</button>
+                </header>
+                <div class="glass-card form-page-card">
+                    <div class="form-page-header">
+                        <div class="form-page-icon" style="background:linear-gradient(135deg, #8b5cf6, #7c3aed);"><i class="fas fa-user-shield"></i></div>
+                        <h2>Add New Admin</h2>
+                        <p>Create an admin account for another teacher</p>
+                    </div>
+                    <form id="form-add-admin" class="form-page-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="new-admin-name" class="glass-input" placeholder="e.g. Mohamed Ali" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" id="new-admin-username" class="glass-input" placeholder="e.g. mohamed_teacher" required>
+                                <small class="form-hint">Used for login</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="new-admin-password" class="glass-input" placeholder="Min 6 characters" required minlength="6">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="btn-cancel-add-admin" class="btn btn-glass">Cancel</button>
+                            <button type="submit" class="btn btn-glass btn-primary-glow"><i class="fas fa-user-shield"></i> Create Admin</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section id="admin-settings" class="content-section">
+                <header class="page-header"><h2><i class="fas fa-cogs"></i> Settings</h2></header>
+                <div class="settings-grid">
+                    <div class="glass-card settings-block">
+                        <div class="settings-header"><i class="fas fa-id-card"></i> Profile</div>
+                        <form id="admin-profile-form" class="settings-form">
+                            <div class="form-group"><label>Display Name</label><input type="text" id="admin-setting-name" class="glass-input" required></div>
+                            <div class="form-group"><label>Email</label><input type="email" id="admin-setting-email" class="glass-input" disabled></div>
+                            <button type="submit" class="btn btn-glass btn-primary-glow">Update</button>
+                        </form>
+                    </div>
+                    <div class="glass-card settings-block">
+                        <div class="settings-header"><i class="fas fa-shield-alt"></i> Security</div>
+                        <form id="admin-security-form" class="settings-form">
+                            <div class="form-group"><label>New Password</label><input type="password" id="admin-new-password" class="glass-input" placeholder="Min 6 characters" minlength="6"></div>
+                            <button type="submit" class="btn btn-glass btn-primary-glow">Change</button>
+                        </form>
+                    </div>
+                    <div class="glass-card settings-block wide">
+                        <div class="settings-header"><i class="fas fa-sliders-h"></i> Preferences</div>
+                        <div class="settings-form">
+                            <div class="form-row">
+                                <div class="form-group"><label>Default Grade</label><select id="admin-default-grade" class="glass-input"></select></div>
+                                <div class="form-group"><label>Default Year</label><select id="admin-default-year" class="glass-input"></select></div>
+                            </div>
+                            <div class="form-group toggle-group">
+                                <label>Email Notifications</label>
+                                <label class="switch"><input type="checkbox" id="admin-notify" checked><span class="slider round"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- STUDENT LAYOUT -->
+    <div id="student-layout" class="view layout">
+        <header class="student-header glass-panel">
+            <div class="header-brand"><i class="fas fa-graduation-cap"></i><span>EduLearn</span></div>
+            <div class="header-actions">
+                <button id="btn-student-home" class="btn btn-glass btn-sm active"><i class="fas fa-home"></i> <span class="hide-mobile">Materials</span></button>
+                <button id="btn-student-settings" class="btn btn-glass btn-sm"><i class="fas fa-cog"></i> <span class="hide-mobile">Settings</span></button>
+                <button id="btn-student-logout" class="btn btn-glass btn-danger btn-sm"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </header>
+        <div class="student-body">
+            <button id="mobile-filter-toggle" class="mobile-filter-btn glass-panel"><i class="fas fa-filter"></i> Filters</button>
+            <aside class="student-filters glass-panel" id="student-filters">
+                <div class="filters-header">
+                    <h3><i class="fas fa-filter"></i> Filters</h3>
+                    <button id="mobile-close-filters" class="btn-close-filters"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="filter-group"><label>Grade</label><select id="stu-filter-grade" class="glass-input"><option value="">All Grades</option></select></div>
+                <div class="filter-group"><label>Year</label><select id="stu-filter-year" class="glass-input"><option value="">All Years</option></select></div>
+                <div class="filter-group"><label>Subject</label><select id="stu-filter-subject" class="glass-input"><option value="">All Subjects</option></select></div>
+                <div class="filter-group"><label>Term</label><select id="stu-filter-term" class="glass-input"><option value="">All Terms</option></select></div>
+                <button id="btn-stu-apply-filters" class="btn btn-glass btn-primary-glow btn-block">Apply</button>
+                <button id="btn-stu-clear-filters" class="btn btn-glass btn-block btn-sm">Reset</button>
+            </aside>
+            <main class="student-main">
+                <div id="student-view-materials" class="stu-view active">
+                    <div class="view-header">
+                        <h2><i class="fas fa-book-reader"></i> Materials</h2>
+                        <span id="content-count-badge" class="badge glass-badge">0 items</span>
+                    </div>
+                    <div id="student-content-grid" class="content-grid"></div>
+                </div>
+                <div id="student-view-settings" class="stu-view">
+                    <div class="view-header"><h2><i class="fas fa-cog"></i> Settings</h2></div>
+                    <div class="settings-grid">
+                        <div class="glass-card settings-block">
+                            <div class="settings-header"><i class="fas fa-user"></i> Profile</div>
+                            <form id="student-profile-form" class="settings-form">
+                                <div class="form-group"><label>Name</label><input type="text" id="stu-setting-name" class="glass-input" required></div>
+                                <div class="form-group"><label>Email</label><input type="email" id="stu-setting-email" class="glass-input" disabled></div>
+                                <div class="form-group"><label>Grade</label><input type="text" id="stu-setting-grade" class="glass-input" disabled></div>
+                                <button type="submit" class="btn btn-glass btn-primary-glow">Update</button>
+                            </form>
+                        </div>
+                        <div class="glass-card settings-block">
+                            <div class="settings-header"><i class="fas fa-lock"></i> Security</div>
+                            <form id="student-security-form" class="settings-form">
+                                <div class="form-group"><label>New Password</label><input type="password" id="stu-new-password" class="glass-input" placeholder="Min 6 chars" minlength="6"></div>
+                                <button type="submit" class="btn btn-glass btn-primary-glow">Change</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- VIEW CONTENT MODAL -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div id="modal-view-content" class="glass-modal modal-large">
+            <div class="modal-header">
+                <h3 id="view-content-title">Title</h3>
+                <button class="btn-close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="view-content-media" class="content-media-preview"></div>
+                <div class="content-meta-tags" id="view-content-tags"></div>
+                <p id="view-content-desc" class="content-desc"></p>
+                <a id="view-content-download" href="#" target="_blank" class="btn btn-glass btn-primary-glow" style="display:none;"><i class="fas fa-external-link-alt"></i> Open</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="glass-toast"></div>
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
